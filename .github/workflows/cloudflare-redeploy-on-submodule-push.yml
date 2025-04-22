@@ -1,0 +1,45 @@
+name: Redeploy Cloudflare Pages on Submodule Push
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest successful deployment ID
+        id: get_deployment_id
+        run: |
+          ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          PROJECT_NAME="${{ vars.PROJECT_NAME }}" # あなたの Cloudflare Pages プロジェクト名に置き換えてください
+          API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
+
+          response=$(curl -s -X GET \
+            -H "Authorization: Bearer $API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/deployments?status=success&per_page=1")
+
+          deployment_id=$(echo "$response" | jq -r '.result[0].id')
+          echo "LATEST_DEPLOYMENT_ID=$deployment_id" >> $GITHUB_OUTPUT
+      - name: Output Deployment ID
+        if: steps.get_deployment_id.outputs.LATEST_DEPLOYMENT_ID
+        run: |
+          echo "Latest successful deployment ID: ${{ steps.get_deployment_id.outputs.LATEST_DEPLOYMENT_ID }}"
+      - name: Redeploy Cloudflare Pages
+        if: steps.get_deployment_id.outputs.LATEST_DEPLOYMENT_ID
+        run: |
+          ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          PROJECT_NAME="${{ vars.PROJECT_NAME }}"
+          DEPLOYMENT_ID="${{ steps.get_deployment_id.outputs.LATEST_DEPLOYMENT_ID }}"
+          API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
+
+          echo "Redeploying deployment ID: $DEPLOYMENT_ID"
+
+          response=$(curl -X POST \
+            -H "Authorization: Bearer $API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/$PROJECT_NAME/deployments/$DEPLOYMENT_ID/retry")
+
+          echo "Redeploy API Response:"
+          echo "$response"
