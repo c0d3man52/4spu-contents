@@ -1,2 +1,4 @@
 .obsidian
 .DS_Store
+/*/data/offers/*
+!/*/data/offers/.keep
