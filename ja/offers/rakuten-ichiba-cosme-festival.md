@@ -3,7 +3,7 @@ heading: 楽天市場の「Cosme Festival」
 intro: 楽天市場の「Cosme Festival」は、不定期で開催されるコスメブランドの限定キャンペーン。クーポンや対象アイテムポイントアップなど、関連アイテムの購入がお得になります。
 short: 「Cosme Festival」キャンペーン
 slug: rakuten-ichiba-fathers-day
-type: 2
+type: 3
 seo:
     title: 楽天市場の「Cosme Festival」
     description: 楽天市場で不定期で開催されるコスメブランドの限定キャンペーン「Cosme Festival」について解説。特典内容やお得度合い、他のキャンペーンとの違いなど。

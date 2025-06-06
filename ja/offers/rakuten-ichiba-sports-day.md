@@ -3,7 +3,7 @@ heading: 楽天市場の「Rakuten スポーツデー」
 intro: 楽天市場の「Rakuten スポーツデー」は、毎年不定期開催されるスポーツブランドの製品が特別価格になるセールイベントです。
 short: 「Rakuten スポーツデー」
 slug: rakuten-ichiba-sports-day
-type: 2
+type: 3
 seo:
     title: 楽天市場の「Rakuten スポーツデー」
     description: 楽天市場で毎年不定期開催される「Rakuten スポーツデー」について解説。開催時期やセール内容、お得度合い、他のキャンペーンとの違いなど。
